@@ -1,0 +1,55 @@
+$ python 1_extract.py
+Loading 0tblProvince.xlsx ...
+  -> raw_0tblprovince: 9 rows
+Loading 1tblDistricts.xlsx ...
+  -> raw_1tbldistricts: 151 rows
+Loading 2tblVillages.xlsx ...
+  -> raw_2tblvillages: 4,423 rows
+Loading 3VillageMapSurvey.xlsx ...
+  -> raw_3villagemapsurvey: 4,226 rows
+Loading 4Household.xlsx ...
+  -> raw_4household: 82,521 rows
+Loading 5tlbHHChild.xlsx ...
+  -> raw_5tlbhhchild: 253,904 rows
+Loading 6Mother_Data.xlsx ...
+  -> raw_6mother_data: 86,287 rows
+Loading 7Pvt_School.xlsx ...
+  -> raw_7pvt_school: 1,825 rows
+Loading 8Gov_School.xlsx ...
+  -> raw_8gov_school: 4,117 rows
+Extract complete: 9 raw tables loaded.
+
+$ python 2_transform.py
+  built clean_children: 216,125 rows
+  built rejected_children: 37,779 rows
+  built clean_households: 82,521 rows
+  built dim_district: 151 rows
+  built fact_child_status: 216,125 rows
+  built district_kpis: 142 rows
+
+Quality gates
+  [PASS] 1. clean + rejected = raw            (216,125 + 37,779 = 253,904)
+  [PASS] 2. no child lost in the join         (clean 216,125 vs fact 216,125)
+  [PASS] 3. one enrollment flag per child     (0 children violate)
+  [PASS] 4. district totals add up to fact    (216,125 vs 216,125)
+
+Transform complete.
+
+$ python 3_visualize.py
+--- KEY FINDINGS (ASER 2012, children aged 5-16) ---
+Children analysed:            216,125
+Out of school:                51,835  (24.0%)
+  never enrolled:             42,823  (83% of out-of-school)
+  dropped out:                9,012  (17% of out-of-school)
+Out-of-school rate, girls:    33.2%
+Out-of-school rate, boys:     17.8%
+Highest district:             Dera Bugti (75.2%, n=1,269)
+Districts with data:          142
+
+Risk-tier cut-offs (33rd / 66th percentile): 0.136 / 0.269
+risk_tier
+low_risk       48
+high_risk      47
+medium_risk    47
+
+Saved 4 charts to outputs/charts/ and a CSV to outputs/tables/

@@ -1,0 +1,18 @@
+# secrets
+.env
+
+# raw data: contains household-head names, and redistribution is not ours to grant
+data/raw/*
+!data/raw/.gitkeep
+*.xlsx
+*.xls
+
+# generated outputs (sample charts live in docs/charts)
+outputs/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
